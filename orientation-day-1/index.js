@@ -8,13 +8,16 @@
 
 const crypto = require('crypto');
 
-
-for (let index = 0; index < 100000000; index++) {
-    const hashedString = crypto.createHash("sha256").update(index.toString()).digest("hex");
-    if (hashedString.startsWith("0000")) {
-        console.log(index);
-        console.log(hashedString);
-        break;
+function findHashWithPrefix(prefix) {
+    let input = 888485;
+    while (true) {
+        let inputString = input.toString();
+        const hashedString = crypto.createHash('sha256').update(inputString).digest('hex');
+        if (hashedString.startsWith(prefix)) {
+            return { input: inputString, hash: hashedString };
+        }
+        input++;
     }
-    
 }
+
+console.log(findHashWithPrefix("0000").hash, findHashWithPrefix("0000").input)
